@@ -1,0 +1,121 @@
+// -*- mode: jsonc -*-
+
+// Bar config
+
+{
+    "height": 30,
+    "spacing": 0,
+    "reload_style_on_change": true,
+
+    "modules-left": [
+	"group/info"
+    ],
+
+    "modules-center": [
+	"hyprland/workspaces",
+	"privacy"
+	//"wlr/taskbar"
+    ],
+
+    "modules-right": [
+	"group/controls"
+    ],
+
+    // Modules configuration
+
+    "group/info": {
+	"orientation": "horizontal",
+	"modules": [
+	    "user",
+	    "custom/divider",
+	    "clock"
+	]
+    },
+
+    "group/controls": {
+	"orientation": "horizontal",
+	"modules": [
+	    "network",
+	    "custom/divider",
+	    "wireplumber",
+	    "custom/divider",
+	    "cpu",
+	    "custom/divider",
+	    "memory", 
+	    "custom/divider",
+	    "hyprland/language"
+	]
+    },
+
+    "user": {
+	"format": "Moein"
+    },
+
+    "cpu": {
+	"format": " {usage}%",
+	"tooltip": false
+    },
+
+    "clock": {
+	"format": "{:%a, %d %b - %H:%M}",
+	"tooltip": false
+    },
+
+    "hyprland/workspaces": {
+	"format": "{icon}",
+	"format-icons": {
+	    "default": "",
+	    "active": ""
+	},
+	"persistent-workspaces": {
+	    "HDMI-A-1": [1, 2, 3, 4, 5]
+	}
+    },
+
+    "hyprland/language": {
+	"format-en": "EN",
+	"format-fa": "FA",
+	"on-click-release": "hyprctl switchxkblayout sigmachip-usb-keyboard next"
+    },
+
+    "memory": {
+	"format": " {percentage}%",
+	"interval": 10
+    },
+
+    "network": {
+	"interval": 1,
+	"format-ethernet": " {bandwidthDownBytes}   {bandwidthUpBytes} - 󰈀 ",
+	"format-wifi": " {bandwidthDownBytes}   {bandwidthUpBytes} -  ",
+	"format-disconnected": "󰌙 ",
+	"format-disabled": "󰈂 ",
+	"tooltip": false
+    },
+
+    "privacy": {
+	"icon-spacing": 4,
+	"icon-size": 18,
+	"transition-duration": 250,
+	"modules": [
+		{
+			"type": "screenshare",
+			"tooltip": true
+		},
+		{
+			"type": "audio-in",
+			"tooltip": true
+		}
+	]
+    },
+
+    "wireplumber": {
+	"format": "  {volume}%",
+	"format-muted": " ",
+	"on-click-release": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    },
+
+    "custom/divider": {
+	"format": "|",
+	"tooltip": false
+    }
+}

@@ -1,0 +1,114 @@
+[global]
+
+    monitor = 0
+    follow = none
+
+    width = 300
+    height = (0, 100)
+
+    notification_limit = 6
+
+    origin = top-right
+    offset = (5, 5)
+
+    scale = 0
+
+    progress_bar = true
+    progress_bar_horizontal_alignment = right
+    progress_bar_height = 5
+    progress_bar_frame_width = 0
+    progress_bar_min_width = 300
+    progress_bar_max_width = 300
+    progress_bar_corner_radius = 0
+    progress_bar_corners = all
+
+    icon_corner_radius = 0
+    icon_corners = all
+
+    indicate_hidden = true
+
+    transparency = 0
+
+    separator_height = 0
+
+    padding = 10
+    horizontal_padding = 10
+    text_icon_padding = 10
+
+    frame_width = 0
+    frame_color = "#61afff99"
+
+    gap_size = 5
+
+    # separator_color = auto
+
+    sort = update
+
+    idle_threshold = 0
+
+    font = JetBrainsMono Nerd Font 10
+
+    line_height = 0
+
+    markup = full 
+    format = "%i<b>%s</b>\n%b"
+
+    alignment = left
+    vertical_alignment = center
+
+    show_age_threshold = -1
+
+    ellipsize = end
+    ignore_newline = no
+
+    stack_duplicates = true
+    hide_duplicate_count = false
+
+    show_indicators = true
+
+    enable_recursive_icon_lookup = true
+
+    icon_theme = "Adwaita"
+    icon_position = left
+    min_icon_size = 16
+    max_icon_size = 16
+
+    sticky_history = false
+    history_length = 30
+
+    dmenu = /usr/bin/dmenu -l 10 -p dunst:
+    browser = /usr/bin/xdg-open
+    always_run_script = true
+
+    # Define the title of the windows spawned by dunst (X11 only)
+    # title = Dunst
+    # Define the class of the windows spawned by dunst (X11 only)
+    # class = Dunst
+
+    corner_radius = 5
+    corners = all
+
+    ignore_dbusclose = false
+
+    layer = overlay
+    force_xwayland = false
+
+    force_xinerama = false
+ 
+    mouse_left_click = close_current
+    mouse_right_click = close_all
+
+[experimental]
+
+    per_monitor_dpi = false
+
+[urgency_normal]
+
+    background = "#6464644d"
+    foreground = "#ffffff"
+    timeout = 10
+    override_pause_level = 30
+
+[fullscreen_delay_everything]
+
+    fullscreen = pushback
