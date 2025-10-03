@@ -1,0 +1,174 @@
+Packages:
+
+- hyprland
+- ghostty
+- git
+- grep
+- neovim
+- libva-nvidia-driver
+- wireplumber
+- xdg-desktop-portal-hyprland
+- hyprpolkitagent
+- qt5-wayland
+- yay					# installation instruction down below
+- cloudflare-warp-bin			# AUR
+- zen-browser-bin			# AUR
+- ttf-jetbrains-mono-nerd
+- nautilus
+- hyprpaper
+- wev
+- os-prober
+- hyprpicker
+- wl-clipboard
+- xdg-desktop-portal-gtk
+- wayabr
+- timeshift
+- cronie
+- windscribe
+- ttf-font-awesome
+- hypridle
+- brightnessctl
+- fastfetch
+- man-db
+- rofi-wayland
+- grim
+- slurp
+- dunst
+- libnotify
+- libreoffice-fresh
+- spotify 				# AUR
+- balena-etcher				# AUR
+- gimp
+- obs-studio
+- celluloid
+- loupe
+- hyprshot
+- nwg-look
+- xorg-xhost
+- visual-studio-code-bin		# AUR
+- fzf
+- unzip
+- btop
+- davinci-resolve			# AUR
+- gnome-calculator
+- gnome-clocks
+- local-send-bin			# AUR
+- telegram-desktop
+- gnome-music
+- starship
+- udiskie
+- wget
+- teamspeak3
+- google-chrome				# AUR
+- yazi
+- tmux
+- ufw
+
+Check if installed or not:
+
+- opencl-nvidia
+- egl-gbm
+- egl-wayland
+- xorg-xwayland
+- wayland-protocls
+
+Step-By-Step Guide:
+
+- archinstall:
+    
+- check for pre-existing nvidia drivers (remove them if they exist)
+- install nvidia drivers:
+    - find gpu model and install the driver (NV160 so install nvidia-open)
+    - install nvidia-utils (if it's not installed already)
+    - if nouveau drivers were installed,
+      remove "kms" from "HOOKS" in "/etc/mkinitcpio.conf" and 
+      regenerate the initramfs using "sudo mkinitcpio -P"
+    - regenerate grub config "sudo grub-mkconfig -o /boot/grub/grub.cfg"
+    - check for DRM kernel mode, "cat /sys/module/nvidia_drm/parameters/modeset",
+      if exists it returns "Y", if not set "modeset=1"
+    - enable early loading,
+      by adding "MODULES=(... nvidia nvidia_modeset nvidia_uvm nvidia_drm ...)"
+      to "/etc/mkinitcpio.conf" and regenrate the initramfs (instruction above)
+    - add pacman hooks to "/etc/pacman.d/hooks/nvidia.hook" (modify nvidia-open / linux)
+        [Trigger]
+	Operation=Install
+	Operation=Upgrade
+	Operation=Remove
+	Type=Package
+	Target=nvidia-open
+	Target=linux
+
+	[Action]
+	Description=Updating NVIDIA module in initcpio
+	Depends=mkinitcpio
+	When=PostTransaction
+	NeedsTargets
+	Exec=/bin/sh -c 'while read -r trg; do case $trg in linux*) exit 0; esac; done; /usr/bin/mkinitcpio -P'
+    - check for egl-wayland
+    - edit "/etc/modprobe.d/nvidia.conf" and add "options nvidia_drm modeset=1"
+    - reboot
+- check for GBM "journal -b 0 --grep "render for""
+- sudo systemctl enable --now warp-svc.service
+    - warp-cli registration new
+- sudo systemctl disable --now systemd-resolved.service systemd-resolved.socket
+- sudo systemctl mask systemd-resolved.service systemd-resolved.socket
+//- sudo systemctl enable --now nftables.service// --commented
+- uncomment "GRUB_DISABLE_OF_PROBER=false" in grub config file and regenerate grub
+- timedatectl set-timezone Asia/Tehran
+- system enable --now cronie.service
+- install the dotfiles including:
+    - .bashrc
+    - .config (code, dunst, ghostty, hypr)
+- mount the drives
+- sudo chown -R $USER:$USER /mnt/data
+- ufw settings:
+    systemctl enable ufw.service
+    systemctl start ufw.service
+
+    sudo ufw limit 22/tcp
+    sudo ufw allow 80/tcp
+    sudo ufw allow 443/tcp
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+    sudo ufw enable
+- Setup autologin and use hyrplock as a login manager:
+    - create this directory and file:
+	/etc/systemd/system/getty@tty1.service.d/override.conf
+    - then add this to it:
+	[Service]
+	ExecStart=
+	ExecStart=-/sbin/agetty -i -a yourusername --noclear %I $TERM
+    - edit .bash_profile and add:
+	if [[ -z $DISPLAY ]] && [[ $(tty) == /dev/tty1 ]]; then
+	  exec Hyprland
+	fi
+- yay installation:
+    sudo pacman -S --needed git base-devel
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
+- quemu virtmanager setup:
+    pacman -S qemu-desktop virt-manager virt-viewer dsnmasq vde2 bridge-utils openbsd-netcat libguestfs
+    sudo systemctl enable --now libvirtd
+    sudo systemctl start libvirtd
+    sudo vim /etc/libvirt/libvirt.conf
+    add:
+	unix_sock_group = "libvirt"
+	unix_sock_ro_perms = "0777"
+	unix_sock_rw_perms = "0770"
+    sudo usermod -aG libvirt moein
+    logout/login
+    sudo systemctl restart libvirtd
+
+Also:
+    - revisit hyprland wiki 
+      (master tutorial, nvidia, xwayland, environment variables, uncommon tips & tricks,
+       performance, FAQ)
+
+Issues/Things to do:
+
+- hyprpolkitagent opacity and blur
+- waybar volume having different icons for different volume levels
+- persian font
+- printer dirver/support
+- grub theme and boot order
