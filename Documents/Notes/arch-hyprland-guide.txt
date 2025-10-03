@@ -63,6 +63,8 @@ Packages:
 - yazi
 - tmux
 - ufw
+- grub-theme-vimix
+- qemu-desktop virt-manager virt-viewer dsnmasq vde2 bridge-utils openbsd-netcat libguestfs
 
 Check if installed or not:
 
@@ -112,7 +114,6 @@ Step-By-Step Guide:
     - warp-cli registration new
 - sudo systemctl disable --now systemd-resolved.service systemd-resolved.socket
 - sudo systemctl mask systemd-resolved.service systemd-resolved.socket
-//- sudo systemctl enable --now nftables.service// --commented
 - uncomment "GRUB_DISABLE_OF_PROBER=false" in grub config file and regenerate grub
 - timedatectl set-timezone Asia/Tehran
 - system enable --now cronie.service
@@ -148,7 +149,6 @@ Step-By-Step Guide:
     cd yay
     makepkg -si
 - quemu virtmanager setup:
-    pacman -S qemu-desktop virt-manager virt-viewer dsnmasq vde2 bridge-utils openbsd-netcat libguestfs
     sudo systemctl enable --now libvirtd
     sudo systemctl start libvirtd
     sudo vim /etc/libvirt/libvirt.conf
@@ -159,6 +159,23 @@ Step-By-Step Guide:
     sudo usermod -aG libvirt moein
     logout/login
     sudo systemctl restart libvirtd
+- Backup dotfiles:
+    mkdir $HOME/.dotfiles
+    git init --bare $HOME/.dotfiles
+    dotfiles config --local status.showUntrackedFiles no
+    dotfiles remote add origin git@github.com:username/.dotfiles.git
+    dotfiles add tmux.conf
+    dotfiles commit -m "message"
+    dotfiles push
+- Change grub theme:
+    sudo vim /etc/default/grub
+    uncomment and add GRUB_THEME="usr/share/grub/themes/Vimix/theme.txt"
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+    To clone:
+	git clone --separate-git-dir=$HOME/.dotfiles https://github.com/anandpiyer/.dotfiles.git tmpdotfiles
+	rsync --recursive --verbose --exclude '.git' tmpdotfiles/ $HOME/
+	rm -r tmpdotfiles
 
 Also:
     - revisit hyprland wiki 
