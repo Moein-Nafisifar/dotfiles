@@ -65,6 +65,9 @@ Packages:
 - ufw
 - grub-theme-vimix
 - qemu-desktop virt-manager virt-viewer dsnmasq vde2 bridge-utils openbsd-netcat libguestfs
+- usbutils
+- cups
+- capt-src
 
 Check if installed or not:
 
@@ -176,16 +179,16 @@ Step-By-Step Guide:
 	git clone --separate-git-dir=$HOME/.dotfiles https://github.com/anandpiyer/.dotfiles.git tmpdotfiles
 	rsync --recursive --verbose --exclude '.git' tmpdotfiles/ $HOME/
 	rm -r tmpdotfiles
-
-Also:
-    - revisit hyprland wiki 
-      (master tutorial, nvidia, xwayland, environment variables, uncommon tips & tricks,
-       performance, FAQ)
+- Printer config
+    - sudo gpass -a moein lp
+    - logout/login
+    - sudo systemctl enable --now cups.service
+    - sudo systemctl restart cups.service
+    - ls /dev/usb
+    - sudo /usr/bin/lpadmin -p LBP6020B -m CNCUPSLBP6020CAPTK.ppd -v ccp://localhost:59687 -E
+    - sudo /usr/bin/ccpdadmin -p LBP6020B -o /dev/usb/lp0
+    - sudo systemctl enable --now ccpd.service
 
 Issues/Things to do:
 
 - hyprpolkitagent opacity and blur
-- waybar volume having different icons for different volume levels
-- persian font
-- printer dirver/support
-- grub theme and boot order
