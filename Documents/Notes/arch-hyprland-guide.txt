@@ -68,6 +68,10 @@ Packages:
 - usbutils
 - cups
 - capt-src
+- cmake
+- gdb
+- clion					# AUR
+- clion-jre				# AUR
 
 Check if installed or not:
 
